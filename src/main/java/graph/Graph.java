@@ -1,7 +1,9 @@
 package graph;
 
 import java.awt.*;
+import java.io.*;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * A class that represents a graph: stores the array of city nodes, the
@@ -25,8 +27,31 @@ public class Graph {
      *   @param filename name of the file that has nodes and edges
      */
     public Graph(String filename) {
-        // FILL IN CODE
-
+        int arrSize = 0;
+        int idx = 0;
+        String cityName = null;
+        try {
+            Scanner sc = new Scanner(new File(filename));
+            while (sc.hasNext()) {
+                String line = sc.next();
+//                if (line.equals("ARCS")) {
+//
+//                }
+                if (line.equals("NODES")) {
+                    arrSize = sc.nextInt();
+                    nodes = new CityNode[arrSize];
+                    cityName = sc.next();
+                } else {
+                    cityName = line;
+                }
+                double xInt = sc.nextDouble();
+                double yInt = sc.nextDouble();
+                CityNode cityNode = new CityNode(cityName, xInt, yInt);
+                nodes[idx] = cityNode;
+            }
+        } catch(FileNotFoundException ex) {
+            System.out.println("File not found");
+        }
     }
 
     /**
