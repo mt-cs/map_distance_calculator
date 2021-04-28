@@ -70,10 +70,13 @@ public class Edge implements Comparable<Edge> {
      */
     @Override
     public int compareTo(Edge o) {
-        // FILL IN CODE
-
-        return 0; // change
+        // add if else
+        return this.cost - o.cost;
     }
+    //TODO:
+    //each node has index
+    // each edge is shown once
+    // also create the opposite
 
 
 }

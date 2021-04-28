@@ -18,8 +18,15 @@ public class KruskalAlgorithm extends MSTAlgorithm {
      * edgesMST list. Should use Kruskal's algorithm and DisjointSets class.
      */
     @Override
-    public void computeMST() {
-        // FILL IN CODE
+    public void computeMST() { // call mst edge, rewatch //TODO
+        // FILL IN CODE use disjoint sets from class sets
+        // get all the edges obtain from the adjacency list form the graph
+        // sort by the sort
+        // put all vertices in their own set
+        // check before add it it will introduce a cycle (WHITEBOARD 4/28)
+        // if not insert
+
+        // use arraylist sort method
 
     }
 

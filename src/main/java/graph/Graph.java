@@ -2,6 +2,7 @@ package graph;
 
 import java.awt.*;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -16,9 +17,10 @@ import java.util.Scanner;
 public class Graph {
     private CityNode[] nodes; // nodes of the graph
     private Edge[] adjacencyList; // adjacency list; for each vertex stores a linked list of edges
-    private int numEdges; // total number of edges
+    private int numEdges; // total number of edges --> increment as you go through the text * 2 because you need backward
     // Add other variable(s) as needed:
-    // add a HashMap to map cities to vertexIds.
+    // add a HashMap to map cities to vertexIds. // use class HashMaps
+    HashMap<String, Integer> citiesId;
 
     /**
      * Constructor. Read graph info from the given file,
@@ -27,16 +29,15 @@ public class Graph {
      *   @param filename name of the file that has nodes and edges
      */
     public Graph(String filename) {
-        int arrSize = 0;
+        int arrSize;
         int idx = 0;
-        String cityName = null;
+        String cityName;
+        String line;
+        citiesId = new HashMap<>();
         try {
             Scanner sc = new Scanner(new File(filename));
-            while (sc.hasNext()) {
-                String line = sc.next();
-//                if (line.equals("ARCS")) {
-//
-//                }
+            line = sc.next();
+            while (sc.hasNext() && !line.equals("ARCS")) {
                 if (line.equals("NODES")) {
                     arrSize = sc.nextInt();
                     nodes = new CityNode[arrSize];
@@ -48,6 +49,29 @@ public class Graph {
                 double yInt = sc.nextDouble();
                 CityNode cityNode = new CityNode(cityName, xInt, yInt);
                 nodes[idx] = cityNode;
+                citiesId.put(cityName, idx);
+                idx++;
+                line = sc.next();
+            }
+            while (sc.hasNext()) {
+                if (line.equals("ARCS")) {
+                    numEdges = 0;
+                    adjacencyList = new Edge[100];
+                    line = sc.next();
+                    continue;
+                }
+                int id1 = citiesId.get(line);
+                int id2 = citiesId.get(sc.next());
+                int cost = sc.nextInt();
+                Edge edge1 = new Edge(id1, id2, cost);
+                adjacencyList[numEdges] = edge1;
+                numEdges++;
+                Edge edge2 = new Edge(id2, id1, cost);
+                adjacencyList[numEdges] = edge2;
+                numEdges++;
+                if (sc.hasNext()) {
+                    line = sc.next();
+                }
             }
         } catch(FileNotFoundException ex) {
             System.out.println("File not found");
@@ -93,7 +117,6 @@ public class Graph {
                 edges2D[idx][1] = nodes[tmp.getId2()].getLocation();
             }
         }
-
         return edges2D;
     }
 
@@ -128,9 +151,7 @@ public class Graph {
         for (int i = 0; i < nodes.length; i++) {
             labels[i] = nodes[i].getCity();
         }
-
         return labels;
-
     }
 
     /**
@@ -141,6 +162,4 @@ public class Graph {
     public CityNode getNode(int nodeId) {
         return nodes[nodeId];
     }
-
-
 }

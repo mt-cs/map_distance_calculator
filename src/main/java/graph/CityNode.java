@@ -18,8 +18,8 @@ public class CityNode  {
 	public CityNode(String cityName, double x, double y) {
 		// Do not change this method
 		this.city = cityName;
-		int xInt = (int) (507*x / 7.0);
-		int yInt = (int) (289 - 289*y/4.0);
+		int xInt = (int) (507 * x / 7.0);
+		int yInt = (int) (289 - 289 * y / 4.0);
 		this.location = new Point(xInt, yInt);
 	}
 

@@ -24,6 +24,8 @@ public class PrimAlgorithm extends MSTAlgorithm {
     public void computeMST() {
         // FILL IN CODE
         // Note: must use a MinHeap and be efficient
+        //TODO:
+        // when you implement prims use minheap priority queue to find the minimum cost
 
 
     }
