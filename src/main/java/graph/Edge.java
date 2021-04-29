@@ -56,10 +56,10 @@ public class Edge implements Comparable<Edge> {
 
     /**
      * Setter for next
-     * @param newnext nextEdge in the linked list
+     * @param newNext nextEdge in the linked list
      */
-    public void setNext(Edge newnext){
-        this.next = newnext;
+    public void setNext(Edge newNext){
+        this.next = newNext;
     }
 
 
@@ -84,6 +84,4 @@ public class Edge implements Comparable<Edge> {
     //each node has index
     // each edge is shown once
     // also create the opposite
-
-
 }

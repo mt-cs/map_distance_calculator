@@ -29,6 +29,51 @@ public class Graph {
      *   @param filename name of the file that has nodes and edges
      */
     public Graph(String filename) {
+        int idx = 0;
+        String line;
+        citiesId = new HashMap<>();
+        try (FileReader f = new FileReader(filename);
+             BufferedReader br = new BufferedReader(f)) {
+            while (((line = br.readLine()) != null) && (!line.equals("ARCS"))){
+                if (line.equals("NODES")) {
+                    nodes = new CityNode[Integer.parseInt(br.readLine())];
+                    continue;
+                }
+                String[] city_info = line.split(" ");
+                if (city_info.length != 3)
+                    throw new IndexOutOfBoundsException();
+                CityNode cityNode = new CityNode
+                        (city_info[0], Double.parseDouble(city_info[1]), Double.parseDouble(city_info[2]));
+                nodes[idx] = cityNode;
+                citiesId.put(city_info[0], idx);
+                idx++;
+            }
+            while (line != null) {
+                if (line.equals("ARCS")) {
+                    numEdges = 0;
+                    adjacencyList = new Edge[100];
+                    line = br.readLine();
+                    continue;
+                }
+                String[] edge_info = line.split(" ");
+                if (edge_info.length != 3)
+                    throw new IndexOutOfBoundsException();
+                Edge edge1 = new Edge
+                        (citiesId.get(edge_info[0]), citiesId.get(edge_info[1]), Integer.parseInt(edge_info[2]));
+                adjacencyList[numEdges] = edge1;
+                numEdges++;
+                Edge edge2 = new Edge
+                        (citiesId.get(edge_info[1]), citiesId.get(edge_info[0]), Integer.parseInt(edge_info[2]));
+                adjacencyList[numEdges] = edge2;
+                numEdges++;
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            System.out.println("No such file: " + filename);
+        }
+    }
+    /**
+    public Graph(String filename) {
         int arrSize;
         int idx = 0;
         String cityName;
@@ -77,6 +122,7 @@ public class Graph {
             System.out.println("File not found");
         }
     }
+    */
 
     /**
      * Return the number of nodes in the graph
