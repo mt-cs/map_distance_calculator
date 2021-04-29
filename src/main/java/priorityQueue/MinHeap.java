@@ -21,6 +21,10 @@ public class MinHeap {
             return cost;
         }
 
+        public void setCost(int cost) {
+            this.cost = cost;
+        }
+
         public int getNodeId() {
             return nodeId;
         }
@@ -35,9 +39,9 @@ public class MinHeap {
         heap = new elem[maxsize];
         size = 0;
         heap[0] = new elem(Integer.MIN_VALUE, Integer.MIN_VALUE);
-
         // Note: no actual data is stored at heap[0].
         // Assigned MIN_VALUE so that it's easier to bubble up
+        positions = new int[20];
     }
 
     /** Return the index of the left child of the element at index pos
@@ -85,6 +89,8 @@ public class MinHeap {
         elem tmp;
         tmp = heap[pos1];
         heap[pos1] = heap[pos2];
+        positions[tmp.getNodeId()] = pos2;
+        positions[heap[pos2].getNodeId()] = pos1;
         heap[pos2] = tmp;
     }
 
@@ -96,6 +102,7 @@ public class MinHeap {
     public void insert(int nodeId, int priority) {
         size++;
         heap[size] = new elem(nodeId, priority);
+        positions[nodeId] = size;
 
         int current = size;
         while (heap[current].getCost() < heap[parent(current)].getCost()) {
@@ -119,7 +126,33 @@ public class MinHeap {
      * @param newPriority new Priority
      */
     public void reduceKey(int nodeId, int newPriority) {
+        int heap_idx = positions[nodeId];
+        if (newPriority == heap[heap_idx].getCost()) {
+            return;
+        }
 
+        if (newPriority < heap[heap_idx].getCost())
+        {
+            heap[heap_idx].setCost(newPriority);
+            pushUp(heap_idx);
+        } else {
+            heap[heap_idx].setCost(newPriority);
+            pushDown(heap_idx);
+        }
+    }
+
+    public void pushUp(int position) {
+        while (heap[parent(position)].getCost() > heap[position].getCost()) {
+            swap(parent(position), position);
+        }
+    }
+    /**
+     * rebuil the tree form bottom up
+     */
+    private void bottomUp() {
+        for (int i = (size + 1) / 2 - 1 ; i > 0 ; i--) {
+            pushDown(i);
+        }
     }
 
     /** Removes the vertex with the smallest priority from the queue, and returns it.
@@ -143,12 +176,12 @@ public class MinHeap {
         int smallestchild;
         while (!isLeaf(position)) {
             smallestchild = leftChild(position); // set the smallest child to left child
-            if ((smallestchild < size) && (heap[smallestchild].getNodeId() > heap[smallestchild + 1].getNodeId()))
+            if ((smallestchild < size) && (heap[smallestchild].getCost() > heap[smallestchild + 1].getCost()))
                 smallestchild = smallestchild + 1; // right child was smaller, so smallest child = right child
 
             // the value of the smallest child is less than value of current,
             // the heap is already valid
-            if (heap[position].getNodeId() <= heap[smallestchild].getNodeId())
+            if (heap[position].getCost() <= heap[smallestchild].getCost())
                 return;
             swap(position, smallestchild);
             position = smallestchild;

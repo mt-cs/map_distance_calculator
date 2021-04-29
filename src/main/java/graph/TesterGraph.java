@@ -1,6 +1,7 @@
 package graph;
 
 import algo.KruskalAlgorithm;
+import priorityQueue.MinHeap;
 import sets.DisjointSets;
 
 import java.io.BufferedReader;
@@ -28,5 +29,13 @@ public class TesterGraph {
         kruskal.computeMST();
         kruskal.printMST();
 
+        //MinHeap
+        MinHeap minheap = new MinHeap(12);
+        minheap.insert(14, 140);
+        minheap.insert(0, 100);
+        minheap.insert(1, 300);
+        minheap.insert(2, 50);
+        minheap.reduceKey(1, 20);
+        System.out.println(minheap.removeMin());
     }
 }
