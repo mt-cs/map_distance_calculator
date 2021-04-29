@@ -35,6 +35,10 @@ public class KruskalAlgorithm extends MSTAlgorithm {
         }
     }
 
+    /**
+     * A helper method to get all the edges from graph adjacency list
+     * @param allEdges ArrayList to store all edges
+     */
     private void getAllEdges(ArrayList<Edge> allEdges) {
         for (int i = 0; i < numNodes(); i++) {
             Edge curr = getFirstEdge(i);

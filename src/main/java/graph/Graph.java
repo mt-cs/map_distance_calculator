@@ -3,8 +3,6 @@ package graph;
 import java.awt.*;
 import java.io.*;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 /**
  * A class that represents a graph: stores the array of city nodes, the
@@ -17,10 +15,9 @@ import java.util.Scanner;
 public class Graph {
     private CityNode[] nodes; // nodes of the graph
     private Edge[] adjacencyList; // adjacency list; for each vertex stores a linked list of edges
-    private int numEdges; // total number of edges --> increment as you go through the text * 2 because you need backward
+    private int numEdges; // total number of edges
+    private final HashMap<String, Integer> citiesId; // a HashMap to map cities to vertexIds.
     // Add other variable(s) as needed:
-    // add a HashMap to map cities to vertexIds. // use class HashMaps
-    HashMap<String, Integer> citiesId;
 
     /**
      * Constructor. Read graph info from the given file,
@@ -35,43 +32,73 @@ public class Graph {
         try (FileReader f = new FileReader(filename);
              BufferedReader br = new BufferedReader(f)) {
             while (((line = br.readLine()) != null) && (!line.equals("ARCS"))){
-                if (line.equals("NODES")) {
-                    nodes = new CityNode[Integer.parseInt(br.readLine())];
-                    continue;
-                }
-                String[] city_info = line.split(" ");
-                if (city_info.length != 3)
-                    throw new IndexOutOfBoundsException();
-                CityNode cityNode = new CityNode
-                        (city_info[0], Double.parseDouble(city_info[1]), Double.parseDouble(city_info[2]));
-                nodes[idx] = cityNode;
-                citiesId.put(city_info[0], idx);
-                idx++;
+                idx = getNodes(idx, line, br);
             }
             while (line != null) {
-                if (line.equals("ARCS")) {
-                    numEdges = 0;
-                    adjacencyList = new Edge[20];
-                    line = br.readLine();
-                    continue;
-                }
-                String[] edge_info = line.split(" ");
-                if (edge_info.length != 3)
-                    throw new IndexOutOfBoundsException();
-                int id1 = citiesId.get(edge_info[0]);
-                int id2 = citiesId.get(edge_info[1]);
-                int cost = Integer.parseInt(edge_info[2]);
-                Edge edge1 = new Edge (id1, id2, cost);
-                insertAdjacencyList(id1, edge1);
-                Edge edge2 = new Edge (id2, id1, cost);
-                insertAdjacencyList(id2, edge2);
-                line = br.readLine();
+                line = getArcs(line, br);
             }
         } catch (IOException e) {
             System.out.println("No such file: " + filename);
         }
     }
 
+    /**
+     * A helper method to get all the nodes from input file
+     * @param idx current index
+     * @param line current line
+     * @param br buffered reader
+     * @return idx index
+     * @throws IOException if file is not found
+     */
+    private int getNodes(int idx, String line, BufferedReader br) throws IOException {
+        if (line.equals("NODES")) {
+            nodes = new CityNode[Integer.parseInt(br.readLine())];
+            return idx;
+        }
+        String[] city_info = line.split(" ");
+        if (city_info.length != 3)
+            throw new IndexOutOfBoundsException();
+        CityNode cityNode = new CityNode
+                (city_info[0], Double.parseDouble(city_info[1]), Double.parseDouble(city_info[2]));
+        nodes[idx] = cityNode;
+        citiesId.put(city_info[0], idx);
+        idx++;
+        return idx;
+    }
+
+    /**
+     * A helper method to get all of the edges from input file
+     * @param line current line
+     * @param br buffered reader
+     * @return line
+     * @throws IOException if file not found
+     */
+    private String getArcs(String line, BufferedReader br) throws IOException {
+        if (line.equals("ARCS")) {
+            numEdges = 0;
+            adjacencyList = new Edge[20];
+            line = br.readLine();
+            return line;
+        }
+        String[] edge_info = line.split(" ");
+        if (edge_info.length != 3)
+            throw new IndexOutOfBoundsException();
+        int id1 = citiesId.get(edge_info[0]);
+        int id2 = citiesId.get(edge_info[1]);
+        int cost = Integer.parseInt(edge_info[2]);
+        Edge edge1 = new Edge (id1, id2, cost);
+        insertAdjacencyList(id1, edge1);
+        Edge edge2 = new Edge (id2, id1, cost);
+        insertAdjacencyList(id2, edge2);
+        line = br.readLine();
+        return line;
+    }
+
+    /**
+     * A helper method to insert an edge to the adjacency linked list
+     * @param idx index
+     * @param edge Edge
+     */
     private void insertAdjacencyList(int idx, Edge edge) {
         if (adjacencyList[idx] != null) {
             Edge current = adjacencyList[idx];
@@ -118,8 +145,8 @@ public class Graph {
         }
         Point[][] edges2D = new Point[numEdges][2];
         int idx = 0;
-        for (int i = 0; i < adjacencyList.length; i++) {
-            for (Edge tmp = adjacencyList[i]; tmp != null; tmp = tmp.next(), idx++) {
+        for (Edge edge : adjacencyList) {
+            for (Edge tmp = edge; tmp != null; tmp = tmp.next(), idx++) {
                 edges2D[idx][0] = nodes[tmp.getId1()].getLocation();
                 edges2D[idx][1] = nodes[tmp.getId2()].getLocation();
             }
