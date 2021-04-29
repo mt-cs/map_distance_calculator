@@ -74,7 +74,11 @@ public class Graph {
 
     private void insertAdjacencyList(int idx, Edge edge) {
         if (adjacencyList[idx] != null) {
-            adjacencyList[idx].setNext(edge);
+            Edge current = adjacencyList[idx];
+            while(current.next() != null) {
+                current = current.next();
+            }
+            current.setNext(edge);
         } else {
             adjacencyList[idx] = edge;
         }
