@@ -51,78 +51,35 @@ public class Graph {
             while (line != null) {
                 if (line.equals("ARCS")) {
                     numEdges = 0;
-                    adjacencyList = new Edge[100];
+                    adjacencyList = new Edge[20];
                     line = br.readLine();
                     continue;
                 }
                 String[] edge_info = line.split(" ");
                 if (edge_info.length != 3)
                     throw new IndexOutOfBoundsException();
-                Edge edge1 = new Edge
-                        (citiesId.get(edge_info[0]), citiesId.get(edge_info[1]), Integer.parseInt(edge_info[2]));
-                adjacencyList[numEdges] = edge1;
-                numEdges++;
-                Edge edge2 = new Edge
-                        (citiesId.get(edge_info[1]), citiesId.get(edge_info[0]), Integer.parseInt(edge_info[2]));
-                adjacencyList[numEdges] = edge2;
-                numEdges++;
+                int id1 = citiesId.get(edge_info[0]);
+                int id2 = citiesId.get(edge_info[1]);
+                int cost = Integer.parseInt(edge_info[2]);
+                Edge edge1 = new Edge (id1, id2, cost);
+                insertAdjacencyList(id1, edge1);
+                Edge edge2 = new Edge (id2, id1, cost);
+                insertAdjacencyList(id2, edge2);
                 line = br.readLine();
             }
         } catch (IOException e) {
             System.out.println("No such file: " + filename);
         }
     }
-    /**
-    public Graph(String filename) {
-        int arrSize;
-        int idx = 0;
-        String cityName;
-        String line;
-        citiesId = new HashMap<>();
-        try {
-            Scanner sc = new Scanner(new File(filename));
-            line = sc.next();
-            while (sc.hasNext() && !line.equals("ARCS")) {
-                if (line.equals("NODES")) {
-                    arrSize = sc.nextInt();
-                    nodes = new CityNode[arrSize];
-                    cityName = sc.next();
-                } else {
-                    cityName = line;
-                }
-                double xInt = sc.nextDouble();
-                double yInt = sc.nextDouble();
-                CityNode cityNode = new CityNode(cityName, xInt, yInt);
-                nodes[idx] = cityNode;
-                citiesId.put(cityName, idx);
-                idx++;
-                line = sc.next();
-            }
-            while (sc.hasNext()) {
-                if (line.equals("ARCS")) {
-                    numEdges = 0;
-                    adjacencyList = new Edge[100];
-                    line = sc.next();
-                    continue;
-                }
-                int id1 = citiesId.get(line);
-                int id2 = citiesId.get(sc.next());
-                int cost = sc.nextInt();
-                Edge edge1 = new Edge(id1, id2, cost);
-                adjacencyList[numEdges] = edge1;
-                numEdges++;
-                Edge edge2 = new Edge(id2, id1, cost);
-                adjacencyList[numEdges] = edge2;
-                numEdges++;
-                if (sc.hasNext()) {
-                    line = sc.next();
-                }
-            }
-        } catch(FileNotFoundException ex) {
-            System.out.println("File not found");
+
+    private void insertAdjacencyList(int idx, Edge edge) {
+        if (adjacencyList[idx] != null) {
+            adjacencyList[idx].setNext(edge);
+        } else {
+            adjacencyList[idx] = edge;
         }
+        numEdges++;
     }
-    */
 
     /**
      * Return the number of nodes in the graph
