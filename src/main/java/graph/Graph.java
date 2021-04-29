@@ -26,7 +26,7 @@ public class Graph {
      * Constructor. Read graph info from the given file,
      * and create nodes and edges of the graph.
      *
-     *   @param filename name of the file that has nodes and edges
+     * @param filename name of the file that has nodes and edges
      */
     public Graph(String filename) {
         int idx = 0;

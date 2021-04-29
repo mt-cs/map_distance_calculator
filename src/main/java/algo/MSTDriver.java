@@ -17,5 +17,4 @@ public class MSTDriver {
 		GUIApp app = new GUIApp(graph);
 		// this will run the GUI, and then the user will be able to interact with GUI
 	}
-	//TODO specify argument
 }
