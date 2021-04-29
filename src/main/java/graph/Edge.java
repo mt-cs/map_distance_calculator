@@ -79,9 +79,4 @@ public class Edge implements Comparable<Edge> {
         }
         return this.cost - o.cost;
     }
-
-    //TODO:
-    //each node has index
-    // each edge is shown once
-    // also create the opposite
 }
