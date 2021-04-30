@@ -34,14 +34,12 @@ public class MinHeap {
      * Constructor
      * @param max the maximum size of the heap
      */
-    public MinHeap(int max) {
+    public MinHeap(int max, int numNodes) {
         maxsize = max;
         heap = new elem[maxsize];
         size = 0;
         heap[0] = new elem(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        // Note: no actual data is stored at heap[0].
-        // Assigned MIN_VALUE so that it's easier to bubble up
-        positions = new int[20];
+        positions = new int[numNodes];
     }
 
     /** Return the index of the left child of the element at index pos
@@ -127,31 +125,23 @@ public class MinHeap {
      */
     public void reduceKey(int nodeId, int newPriority) {
         int heap_idx = positions[nodeId];
-        if (newPriority == heap[heap_idx].getCost()) {
-            return;
-        }
 
         if (newPriority < heap[heap_idx].getCost())
         {
             heap[heap_idx].setCost(newPriority);
             pushUp(heap_idx);
         } else {
-            heap[heap_idx].setCost(newPriority);
-            pushDown(heap_idx);
+            throw new IllegalArgumentException("New priority has to be lower than current priority");
         }
     }
 
+    /**
+     * private helper method to push the node up the minheap
+     * @param position current position
+     */
     public void pushUp(int position) {
         while (heap[parent(position)].getCost() > heap[position].getCost()) {
             swap(parent(position), position);
-        }
-    }
-    /**
-     * rebuil the tree form bottom up
-     */
-    private void bottomUp() {
-        for (int i = (size + 1) / 2 - 1 ; i > 0 ; i--) {
-            pushDown(i);
         }
     }
 

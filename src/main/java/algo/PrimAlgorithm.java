@@ -14,6 +14,17 @@ public class PrimAlgorithm extends MSTAlgorithm {
     public PrimAlgorithm(Graph graph, int sourceVertex) {
         super(graph);
         this.sourceVertex = sourceVertex;
+        Node[] table = new Node[numNodes()];
+    }
+
+    private class Node {
+        int cost;
+        int parent;
+    // store index of the parent not city node
+        public Node(int cost, int parent) {
+            this.cost = cost;
+            this.parent = parent;
+        }
     }
 
     /**
@@ -26,6 +37,23 @@ public class PrimAlgorithm extends MSTAlgorithm {
         // Note: must use a MinHeap and be efficient
         //TODO:
         // when you implement prims use minheap priority queue to find the minimum cost
+//        Initialize the table
+        for (int i =0; i < numNodes(); i++) {
+            //Node n = new Node();
+            // cost + infinity except for the source vertex 0
+            // parent -1
+        }
+        // do without minheap then add minheap later, use bool added
+
+
+//        Repeat numVertices times:
+//          v = findMinimumUknownVertex()
+//          Mark v as known
+//          for each neighbor u of v:
+//              if (u is unknown)
+//          if table[u].cost > cost of edge from v to u {
+//              table[u].cost = cost of edge from v to u table[u].path = v
+//          }
 
 
     }

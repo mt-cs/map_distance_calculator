@@ -30,7 +30,7 @@ public class TesterGraph {
         kruskal.printMST();
 
         //MinHeap
-        MinHeap minheap = new MinHeap(12);
+        MinHeap minheap = new MinHeap(12, 20);
         minheap.insert(14, 140);
         minheap.insert(0, 100);
         minheap.insert(1, 300);

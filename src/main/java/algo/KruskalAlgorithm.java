@@ -33,6 +33,7 @@ public class KruskalAlgorithm extends MSTAlgorithm {
                 sets.union(e.getId1(), e.getId2());
             }
         }
+        printMST();
     }
 
     /**
