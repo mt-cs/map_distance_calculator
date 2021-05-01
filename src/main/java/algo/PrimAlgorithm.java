@@ -21,6 +21,9 @@ public class PrimAlgorithm extends MSTAlgorithm {
         unvisitedNodes = new MinHeap(numNodes());
     }
 
+    /**
+     * Inner class Node
+     */
     private class Node {
         int cost;
         int parent;
@@ -51,29 +54,21 @@ public class PrimAlgorithm extends MSTAlgorithm {
      * */
     @Override
     public void computeMST() {
-        // Initialize the table
         for (int i = 1; i < numNodes(); i++) {
             table[i] = new Node(Integer.MAX_VALUE, -1);
             unvisitedNodes.insert(i, Integer.MAX_VALUE);
         }
         table[0] = new Node(0, -1);
         table[0].setAdded(true);
-
-        // initially min heap is everything but the source
         for (int i = 0; i < numNodes(); i++) {
-        // Repeat numVertices times:
-            // v = findMinimumUnknownVertex()
-            // Mark v as known
             int nodeId;
             if (i == 0) {
                 nodeId = sourceVertex;
             } else {
                 nodeId = unvisitedNodes.removeMin();
                 table[nodeId].setAdded(true);
-                addMSTEdge(new Edge(table[nodeId].parent, nodeId, table[nodeId].cost));
+                addMSTEdge(new Edge(nodeId, table[nodeId].parent, table[nodeId].cost));
             }
-            // update table when we mark the node is known, update parent and cost
-            // adjacency list at that vertex
             Edge curr = getFirstEdge(nodeId);
             while (curr != null) {
                 if (!table[curr.getId2()].added) {

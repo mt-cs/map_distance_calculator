@@ -8,6 +8,9 @@ public class MinHeap {
     private int size; // the current size of the heap
     private int[] positions; //where an index is a node id, and the value is its index in the heap array
 
+    /**
+     * Inner class to store element in the heap
+     */
     private class Elem {
         private int nodeId;
         private int cost;
@@ -30,9 +33,6 @@ public class MinHeap {
         }
     }
 
-    public int getElemCost (int nodeId) {
-        return heap[nodeId].getCost();
-    }
     /**
      * Constructor
      * @param max the maximum size of the heap
@@ -145,6 +145,7 @@ public class MinHeap {
     public void pushUp(int position) {
         while (heap[parent(position)].getCost() > heap[position].getCost()) {
             swap(parent(position), position);
+            position = parent(position);
         }
     }
 
