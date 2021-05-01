@@ -70,6 +70,7 @@ public class PrimAlgorithm extends MSTAlgorithm {
             } else {
                 nodeId = unvisitedNodes.removeMin();
                 table[nodeId].setAdded(true);
+                addMSTEdge(new Edge(table[nodeId].parent, nodeId, table[nodeId].cost));
             }
             // update table when we mark the node is known, update parent and cost
             // adjacency list at that vertex
@@ -84,11 +85,6 @@ public class PrimAlgorithm extends MSTAlgorithm {
                 }
                 curr = curr.next();
             }
-//          for each neighbor u of v:
-//              if (u is unknown)
-//              if table[u].cost > cost of edge from v to u {
-//                  table[u].cost = cost of edge from v to u table[u].path = v
-//              }
         }
         printMST();
     }
