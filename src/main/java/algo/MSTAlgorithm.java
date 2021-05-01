@@ -75,7 +75,6 @@ public abstract class MSTAlgorithm { // parent class
             edges[i][1] = locations[edge.getId2()];
             i++;
         }
-
         return edges;
     }
 

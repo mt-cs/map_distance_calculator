@@ -3,16 +3,16 @@ package priorityQueue;
 /** A priority queue: represented by the min heap.
  *  Used in Prim's algorithm. */
 public class MinHeap {
-    private elem[] heap; // the array to store the heap where each element has a node id and a cost.
+    private Elem[] heap; // the array to store the heap where each element has a node id and a cost.
     private int maxsize; // the maximum size of the array
     private int size; // the current size of the heap
     private int[] positions; //where an index is a node id, and the value is its index in the heap array
 
-    private class elem {
+    private class Elem {
         private int nodeId;
         private int cost;
 
-        public elem(int nodeIdInput, int costInput) {
+        public Elem(int nodeIdInput, int costInput) {
             nodeId = nodeIdInput;
             cost = costInput;
         }
@@ -30,16 +30,19 @@ public class MinHeap {
         }
     }
 
+    public int getElemCost (int nodeId) {
+        return heap[nodeId].getCost();
+    }
     /**
      * Constructor
      * @param max the maximum size of the heap
      */
-    public MinHeap(int max, int numNodes) {
+    public MinHeap(int max) {
         maxsize = max;
-        heap = new elem[maxsize];
+        heap = new Elem[maxsize];
         size = 0;
-        heap[0] = new elem(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        positions = new int[numNodes];
+        heap[0] = new Elem(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        positions = new int[max];
     }
 
     /** Return the index of the left child of the element at index pos
@@ -84,7 +87,7 @@ public class MinHeap {
      * @param pos2 the index of the second element in the heap
      */
     private void swap(int pos1, int pos2) {
-        elem tmp;
+        Elem tmp;
         tmp = heap[pos1];
         heap[pos1] = heap[pos2];
         positions[tmp.getNodeId()] = pos2;
@@ -99,7 +102,7 @@ public class MinHeap {
      */
     public void insert(int nodeId, int priority) {
         size++;
-        heap[size] = new elem(nodeId, priority);
+        heap[size] = new Elem(nodeId, priority);
         positions[nodeId] = size;
 
         int current = size;
