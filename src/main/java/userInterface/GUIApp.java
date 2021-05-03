@@ -54,6 +54,7 @@ public class GUIApp extends JFrame {
         private JButton buttonReset; // button to reset the algorithm
         private JButton buttonPrim; // button to run Prim's
         private JButton buttonKruskal; // button to run Kruskal's
+        private JButton buttonDjikstra; // button to run Djikstra's
         private JButton buttonQuit; // button to quit
         private BufferedImage image; // for showing the image of the US map
 
@@ -75,9 +76,11 @@ public class GUIApp extends JFrame {
             buttonReset = new JButton("Reset");
             buttonPrim  = new JButton("Prim's");
             buttonKruskal  = new JButton("Kruskal's");
+            buttonDjikstra = new JButton("Djikstra's");
             buttonReset.addActionListener(new ButtonListener());
             buttonPrim.addActionListener(new ButtonListener());
             buttonKruskal.addActionListener(new ButtonListener());
+            buttonDjikstra.addActionListener(new ButtonListener());
             buttonQuit.addActionListener(new ButtonListener());
 
             JPanel buttonPanel = new JPanel();
@@ -85,6 +88,7 @@ public class GUIApp extends JFrame {
             buttonPanel.add(buttonReset);
             buttonPanel.add(buttonPrim);
             buttonPanel.add(buttonKruskal);
+            buttonPanel.add(buttonDjikstra);
             buttonPanel.add(buttonQuit);
             this.add(buttonPanel, BorderLayout.EAST);
 
@@ -216,6 +220,5 @@ public class GUIApp extends JFrame {
                 }
             }
         } // inner class ButtonListener
-
     } // MapPanel
 } // GUIApp
