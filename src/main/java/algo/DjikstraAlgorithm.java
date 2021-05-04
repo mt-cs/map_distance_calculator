@@ -19,13 +19,11 @@ public class DjikstraAlgorithm extends MSTAlgorithm{
      * Inner class Node
      */
     private class Node {
-        int cost;
         int parent;
         int lowestDistance;
         boolean added;
 
-        public Node(int cost, int parent) {
-            this.cost = cost;
+        public Node(int parent) {
             this.parent = parent;
             this.lowestDistance = Integer.MAX_VALUE;
             added = false;
@@ -47,29 +45,14 @@ public class DjikstraAlgorithm extends MSTAlgorithm{
             this.parent = parent;
         }
 
+        /**
+         * setter for cost
+         * @param lowestDistance int
+         */
         public void setLowestDistance(int lowestDistance) {
             this.lowestDistance = lowestDistance;
         }
 
-        /**
-         * setter for cost
-         * @param cost int
-         */
-        public void setCost(int cost) {
-            this.cost = cost;
-        }
-
-        public int getCost() {
-            return cost;
-        }
-
-        public int getParent() {
-            return parent;
-        }
-
-        public boolean isAdded() {
-            return added;
-        }
     }
 
     /**
@@ -79,11 +62,12 @@ public class DjikstraAlgorithm extends MSTAlgorithm{
     @Override
     public void computeMST() {
         for (int i = 1; i < numNodes(); i++) {
-            table[i] = new Node(Integer.MAX_VALUE, -1);
+            table[i] = new Node(-1);
             unvisitedNodes.insert(i, Integer.MAX_VALUE);
         }
-        table[0] = new Node(0, -1);
+        table[0] = new Node(-1);
         table[0].setAdded(true);
+        table[0].setLowestDistance(0);
         for (int i = 0; i < numNodes(); i++) {
             int nodeId;
             if (i == 0) {

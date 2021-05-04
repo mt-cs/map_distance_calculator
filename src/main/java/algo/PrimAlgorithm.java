@@ -66,7 +66,7 @@ public class PrimAlgorithm extends MSTAlgorithm {
      * */
     @Override
     public void computeMST() {
-        for (int i = 1; i < numNodes(); i++) {
+        for(int i = 1; i < numNodes(); i++) {
             table[i] = new Node(Integer.MAX_VALUE, -1);
             unvisitedNodes.insert(i, Integer.MAX_VALUE);
         }
