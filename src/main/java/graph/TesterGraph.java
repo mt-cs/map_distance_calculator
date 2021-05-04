@@ -24,7 +24,6 @@ public class TesterGraph {
         //Kruskal
         KruskalAlgorithm kruskal = new KruskalAlgorithm(g);
         kruskal.computeMST();
-        kruskal.printMST();
 
         //MinHeap
         MinHeap minheap = new MinHeap(20);

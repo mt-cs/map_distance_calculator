@@ -26,11 +26,16 @@ public class KruskalAlgorithm extends MSTAlgorithm {
         sets.createSets(numNodes());
         ArrayList<Edge> allEdges = new ArrayList<>();
         getAllEdges(allEdges);
+        int count = numNodes() - 1;
         allEdges.sort(Edge::compareTo); // Collections.sort
         for (Edge e : allEdges) {
             if (sets.find(e.getId1()) != sets.find(e.getId2())) {
                 addMSTEdge(e);
                 sets.union(e.getId1(), e.getId2());
+                count--;
+            }
+            if (count == 0) {
+                break;
             }
         }
         printMST();
