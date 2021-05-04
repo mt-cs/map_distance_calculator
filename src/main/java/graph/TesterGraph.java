@@ -1,5 +1,6 @@
 package graph;
 
+import algo.DjikstraAlgorithm;
 import algo.KruskalAlgorithm;
 import algo.PrimAlgorithm;
 import priorityQueue.MinHeap;
@@ -32,11 +33,14 @@ public class TesterGraph {
         minheap.insert(1, 300);
         minheap.insert(2, 50);
         minheap.reduceKey(1, 20);
-        minheap.print();
         System.out.println(minheap.removeMin());
 
         //Prim
         PrimAlgorithm prim = new PrimAlgorithm(g, 0);
         prim.computeMST();
+
+        //Djikstra
+        DjikstraAlgorithm djikstra = new DjikstraAlgorithm(g, 0);
+        djikstra.computeMST();
     }
 }

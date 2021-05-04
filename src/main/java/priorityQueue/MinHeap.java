@@ -33,6 +33,11 @@ public class MinHeap {
         }
     }
 
+
+    public int getHeapCost(int nodeId) {
+        return heap[nodeId].getCost();
+    }
+
     /**
      * Constructor
      * @param max the maximum size of the heap
@@ -110,14 +115,6 @@ public class MinHeap {
             swap(current, parent(current));
             current = parent(current);
         }
-    }
-
-    /** Print the array that stores the heap */
-    public void print() {
-        int i;
-        for (i = 1; i <= size; i++)
-            System.out.print(heap[i] + " ");
-        System.out.println();
     }
 
     /**

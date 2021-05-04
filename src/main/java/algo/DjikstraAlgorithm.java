@@ -1,20 +1,14 @@
 package algo;
-
 import graph.*;
 import priorityQueue.MinHeap;
 
-/** Subclass of MSTAlgorithm. Uses Prim's algorithm to compute MST of the graph. */
-public class PrimAlgorithm extends MSTAlgorithm {
+/** Subclass of MSTAlgorithm. Uses Djikstra's algorithm to compute MST of the graph. */
+public class DjikstraAlgorithm extends MSTAlgorithm{
     private int sourceVertex;
     private MinHeap unvisitedNodes;
     private Node[] table;
 
-    /**
-     * Constructor for PrimAlgorithm. Takes the graph
-     * @param graph input graph
-     * @param sourceVertex the first vertex of MST
-     */
-    public PrimAlgorithm(Graph graph, int sourceVertex) {
+    public DjikstraAlgorithm(Graph graph, int sourceVertex) {
         super(graph);
         this.sourceVertex = sourceVertex;
         table = new Node[numNodes()];
@@ -27,11 +21,13 @@ public class PrimAlgorithm extends MSTAlgorithm {
     private class Node {
         int cost;
         int parent;
+        int lowestDistance;
         boolean added;
 
         public Node(int cost, int parent) {
             this.cost = cost;
             this.parent = parent;
+            this.lowestDistance = Integer.MAX_VALUE;
             added = false;
         }
 
@@ -51,6 +47,10 @@ public class PrimAlgorithm extends MSTAlgorithm {
             this.parent = parent;
         }
 
+        public void setLowestDistance(int lowestDistance) {
+            this.lowestDistance = lowestDistance;
+        }
+
         /**
          * setter for cost
          * @param cost int
@@ -58,10 +58,22 @@ public class PrimAlgorithm extends MSTAlgorithm {
         public void setCost(int cost) {
             this.cost = cost;
         }
+
+        public int getCost() {
+            return cost;
+        }
+
+        public int getParent() {
+            return parent;
+        }
+
+        public boolean isAdded() {
+            return added;
+        }
     }
 
     /**
-     * Compute minimum spanning tree for this graph using Prim's algorithm.
+     * Compute minimum spanning tree for this graph using Djikstra's algorithm.
      * Add edges of MST to edgesMST list.
      * */
     @Override
@@ -79,15 +91,17 @@ public class PrimAlgorithm extends MSTAlgorithm {
             } else {
                 nodeId = unvisitedNodes.removeMin();
                 table[nodeId].setAdded(true);
-                addMSTEdge(new Edge(nodeId, table[nodeId].parent, table[nodeId].cost));
+                addMSTEdge(new Edge(nodeId, table[nodeId].parent, table[nodeId].lowestDistance));
             }
             Edge curr = getFirstEdge(nodeId);
             while (curr != null) {
-                if (!table[curr.getId2()].added) {
-                    if (table[curr.getId2()].cost > curr.getCost()) {
-                        table[curr.getId2()].setCost(curr.getCost());
-                        table[curr.getId2()].setParent(curr.getId1());
-                        unvisitedNodes.reduceKey(curr.getId2(), curr.getCost());
+                Node node = table[curr.getId2()];
+                if (!node.added) {
+                    int newDistance = table[nodeId].lowestDistance + curr.getCost();
+                    if (node.lowestDistance > newDistance) {
+                        node.setLowestDistance(newDistance);
+                        node.setParent(nodeId);
+                        unvisitedNodes.reduceKey(curr.getId2(), newDistance);
                     }
                 }
                 curr = curr.next();
