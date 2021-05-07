@@ -2,7 +2,7 @@ package algo;
 import graph.*;
 import priorityQueue.MinHeap;
 
-/** Subclass of MSTAlgorithm. Uses Djikstra's algorithm to compute MST of the graph. */
+/** Computing SSSP. Uses Djikstra's algorithm to compute the shortest path from San Francisco to every other city in the graph. */
 public class DjikstraAlgorithm extends MSTAlgorithm{
     private int sourceVertex;
     private MinHeap unvisitedNodes;

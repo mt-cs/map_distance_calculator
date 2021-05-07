@@ -216,7 +216,6 @@ public class Graph {
             i++;
             vPrev = vCurr;
         }
-
         return edges2D;
     }
 

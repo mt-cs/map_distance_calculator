@@ -84,11 +84,11 @@ public class GUIAppForDijkstra extends JFrame {
             // button
             buttonQuit = new JButton("Quit");
             buttonReset = new JButton("Reset");
-            //buttonPrim  = new JButton("Prim's");
-            //buttonKruskal  = new JButton("Kruskal's");
+            // buttonPrim  = new JButton("Prim's");
+            // buttonKruskal  = new JButton("Kruskal's");
             buttonReset.addActionListener(new ButtonListener());
-            //buttonPrim.addActionListener(new ButtonListener());
-            //buttonKruskal.addActionListener(new ButtonListener());
+            // buttonPrim.addActionListener(new ButtonListener());
+            // buttonKruskal.addActionListener(new ButtonListener());
             buttonQuit.addActionListener(new ButtonListener());
             this.addMouseListener(new MyListener());
 
@@ -96,8 +96,8 @@ public class GUIAppForDijkstra extends JFrame {
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
             buttonPanel.add(buttonReset);
-            //buttonPanel.add(buttonPrim);
-            //buttonPanel.add(buttonKruskal);
+            // buttonPanel.add(buttonPrim);
+            // buttonPanel.add(buttonKruskal);
             buttonPanel.add(buttonQuit);
             this.add(buttonPanel, BorderLayout.EAST);
 
@@ -208,8 +208,8 @@ public class GUIAppForDijkstra extends JFrame {
                     System.exit(0);
                 }
                 else if (e.getSource() == buttonReset) {
-                    //algo = null;
-                   //  dijkstra = null;
+                    // algo = null;
+                    // dijkstra = null;
                     dijkstra = new Dijkstra(graph);
 
                     repaint();
@@ -217,7 +217,7 @@ public class GUIAppForDijkstra extends JFrame {
                 /*else if (e.getSource() == buttonKruskal) {
                     System.out.println("Button Kruskal clicked");
                     //algo = new KruskalAlgorithm(graph);
-                   // algo.computeMST();
+                    //algo.computeMST();
                     colMSTEdges = Color.RED;
                     repaint();
                 }
@@ -260,7 +260,6 @@ public class GUIAppForDijkstra extends JFrame {
                     oneClicked = false;
                     repaint();
                 } // if oneClicked is true
-
             }
 
             public void mouseEntered(MouseEvent e) {
