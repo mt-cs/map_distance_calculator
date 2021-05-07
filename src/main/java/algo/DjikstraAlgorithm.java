@@ -67,8 +67,8 @@ public class DjikstraAlgorithm extends MSTAlgorithm{
         table[0] = new Node(-1);
         table[0].setAdded(true);
         table[0].setLowestDistance(0);
+        int nodeId;
         for (int i = 0; i < numNodes(); i++) {
-            int nodeId;
             if (i == 0) {
                 nodeId = sourceVertex;
             } else {

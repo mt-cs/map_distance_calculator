@@ -72,8 +72,8 @@ public class PrimAlgorithm extends MSTAlgorithm {
         }
         table[0] = new Node(0, -1);
         table[0].setAdded(true);
+        int nodeId;
         for (int i = 0; i < numNodes(); i++) {
-            int nodeId;
             if (i == 0) {
                 nodeId = sourceVertex;
             } else {
