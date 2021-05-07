@@ -24,7 +24,7 @@ public class PrimAlgorithm extends MSTAlgorithm {
     /**
      * Inner class Node
      */
-    private class Node {
+    private static class Node {
         int cost;
         int parent;
         boolean added;
