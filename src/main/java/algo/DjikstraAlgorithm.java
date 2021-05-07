@@ -56,8 +56,7 @@ public class DjikstraAlgorithm extends MSTAlgorithm{
     }
 
     /**
-     * Compute minimum spanning tree for this graph using Djikstra's algorithm.
-     * Add edges of MST to edgesMST list.
+     * Compute SSSP for this graph using Djikstra's algorithm.
      * */
     @Override
     public void computeMST() {

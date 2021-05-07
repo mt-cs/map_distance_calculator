@@ -7,21 +7,22 @@ import priorityQueue.MinHeap;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /** Class graph.Dijkstra. Implementation of graph.Dijkstra's
  *  algorithm on the graph for finding the shortest path.
  *  Fill in code. You may add additional helper methods or classes.
  */
 public class Dijkstra {
-	private Graph graph; // stores the graph of CityNode-s and edges connecting them
+	private final Graph graph; // stores the graph of CityNode-s and edges connecting them
 	private ArrayList<Integer> shortestPath;
-	private MinHeap unvisitedNodes;
-	private Node[] table;
+	private final MinHeap unvisitedNodes;
+	private final Node[] table;
 
 	/**
 	 * Inner class Node
 	 */
-	private class Node {
+	private static class Node {
 		int parent;
 		int lowestDistance;
 		boolean added;
@@ -65,7 +66,7 @@ public class Dijkstra {
 	public Dijkstra(Graph graph) {
 	    this.graph = graph;
         table = new Node[graph.numNodes()];
-        unvisitedNodes = new MinHeap(graph.numNodes());
+        unvisitedNodes = new MinHeap(graph.numNodes() + 1);
 	}
 
 	/**
@@ -81,27 +82,31 @@ public class Dijkstra {
 		int startNode = graph.getId(origin);
 		int destinationNode = graph.getId(destination);
 
-		for (int i = 1; i < graph.numNodes(); i++) {
-			table[i] = new Node(-1);
-			unvisitedNodes.insert(i, Integer.MAX_VALUE);
+		computeGraph(startNode);
+		Node current = table[destinationNode];
+		shortestPath.add(destinationNode);
+		while (current.parent != -1) {
+			shortestPath.add(current.parent);
+			current = table[current.parent];
 		}
-		table[0] = new Node(-1);
-		table[0].setAdded(true);
-		table[0].setLowestDistance(0);
+		Collections.reverse(shortestPath);
+		printShortestPath();
+    }
 
+	/**
+	 * Compute SSSP for this graph using Djikstra's algorithm.
+	 * */
+	private void computeGraph(int startNode) {
 		for (int i = 0; i < graph.numNodes(); i++) {
-			int nodeId;
-			if (i == 0) {
-				nodeId = startNode;
-			} else {
-				nodeId = unvisitedNodes.removeMin();
-				table[nodeId].setAdded(true);
-			}
-			shortestPath.add(nodeId);
-			if (nodeId == destinationNode) {
-			    printShortestPath();
-			    break;
-            }
+			table[i] = new Node(-1);
+			unvisitedNodes.insert(i + 1, Integer.MAX_VALUE);
+		}
+		table[startNode].setAdded(true);
+		table[startNode].setLowestDistance(0);
+		unvisitedNodes.reduceKey(startNode + 1, 0);
+		for (int i = 0; i < graph.numNodes(); i++) {
+			int nodeId = unvisitedNodes.removeMin() - 1;
+			table[nodeId].setAdded(true);
 			Edge curr = graph.getFirstEdge(nodeId);
 			while (curr != null) {
 				Node node = table[curr.getId2()];
@@ -110,14 +115,17 @@ public class Dijkstra {
 					if (node.lowestDistance > newDistance) {
 						node.setLowestDistance(newDistance);
 						node.setParent(nodeId);
-						unvisitedNodes.reduceKey(curr.getId2(), newDistance);
+						unvisitedNodes.reduceKey(curr.getId2() + 1, newDistance);
 					}
 				}
 				curr = curr.next();
 			}
 		}
-    }
+	}
 
+	/**
+	 * a helper method to print all the shortest path
+	 */
     private void printShortestPath() {
 	    for (int path : shortestPath) {
             System.out.println(graph.getNode(path).getCity());

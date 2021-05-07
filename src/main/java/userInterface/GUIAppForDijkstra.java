@@ -1,17 +1,9 @@
-/** GUIApp - a class that deals with the graphical user interface of the project.
- *  Creates the window with the panel that displays the map of the US,
- *  with major cities as nodes and edges connecting them.
- *  Allows the user to click on either Kruskal's or Prim's button,
- *  and runs the corresponding algorithm for computing MST.
- *  Displays the MST edges.
- *  Please do not change anything in this class.
- */
 package userInterface;
 
+// import algo.KruskalAlgorithm;
+// import algo.MSTAlgorithm;
+// import algo.PrimAlgorithm;
 import algo.Dijkstra;
-import algo.KruskalAlgorithm;
-import algo.MSTAlgorithm;
-import algo.PrimAlgorithm;
 import graph.CityNode;
 import graph.Graph;
 
@@ -185,7 +177,7 @@ public class GUIAppForDijkstra extends JFrame {
          */
         public void drawShortestPath(Graphics g) {
             Point[][] pathEdges = dijkstra.getPath();
-            g.setColor(Color.BLUE);
+            g.setColor(Color.MAGENTA);
             if (pathEdges == null)
                 return;
             for (int i = 0; i < pathEdges.length; i++) {
@@ -247,7 +239,7 @@ public class GUIAppForDijkstra extends JFrame {
                 repaint();
 
                 if (!oneClicked) { // first click
-                    System.out.println("First node clicked: " + v.getCity());
+                    System.out.println("\nFirst node clicked: " + v.getCity());
                     origin = v;
                     oneClicked = true;
                 } else { // it's the second click
@@ -275,6 +267,4 @@ public class GUIAppForDijkstra extends JFrame {
             }
         }
     } // MapPanel
-
-
 } // GUIApp

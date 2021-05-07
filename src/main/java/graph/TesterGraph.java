@@ -40,7 +40,7 @@ public class TesterGraph {
         prim.computeMST();
 
         //Djikstra
-        DjikstraAlgorithm djikstra = new DjikstraAlgorithm(g, 0);
+        DjikstraAlgorithm djikstra = new DjikstraAlgorithm(g, 3);
         djikstra.computeMST();
     }
 }

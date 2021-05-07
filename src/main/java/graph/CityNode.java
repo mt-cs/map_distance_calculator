@@ -1,11 +1,10 @@
+package graph;
+import java.awt.*;
+
 /** A class that represents a node of the graph.
  *  Contains the name of the city and the location  (x, y coordinates) on the map.
  *  Do not modify this class.
  */
-package graph;
-
-import java.awt.*;
-
 public class CityNode  {
 	private final String city;
 	private Point location;
