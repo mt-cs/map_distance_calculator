@@ -2,6 +2,7 @@ package graph;
 
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -195,5 +196,51 @@ public class Graph {
      */
     public CityNode getNode(int nodeId) {
         return nodes[nodeId];
+    }
+
+    /** Take a list of node ids on the path and return an array where each
+     * element contains two points (an edge between two consecutive nodes)
+     * @param pathOfNodes A list of node ids on the path
+     * @return array where each element is an array of 2 points
+     */
+    public Point[][] getPath(ArrayList<Integer> pathOfNodes) {
+        int i = 0;
+        Point[][] edges2D = new Point[pathOfNodes.size()-1][2];
+        Integer vPrev = pathOfNodes.get(0); // node id
+
+        for (int k = 1; k < pathOfNodes.size(); k++) {
+            Integer vCurr = pathOfNodes.get(k); // node id
+            // Need to add an edge between vPrev and vCurr
+            edges2D[i][0] = (nodes[vPrev]).getLocation();
+            edges2D[i][1] = (nodes[vCurr]).getLocation();
+            i++;
+            vPrev = vCurr;
+        }
+
+        return edges2D;
+    }
+
+    /**
+     * Take the location of the mouse click as a parameter, and return the node
+     * of the graph at this location. Needed in GUIApp class.
+     * @param loc the location of the mouse click
+     * @return reference to the corresponding CityNode
+     */
+    public CityNode getNode(Point loc) {
+        for (CityNode v : nodes) {
+            Point p = v.getLocation();
+            if ((Math.abs(loc.x - p.x) < 5) && (Math.abs(loc.y - p.y) < 5))
+                return v;
+        }
+        return null;
+    }
+
+    /**
+     * Returns an integer id of the given city node
+     * @param city node of the graph
+     * @return its integer id
+     */
+    public int getId(CityNode city) {
+        return citiesId.get(city.getCity());
     }
 }

@@ -38,6 +38,14 @@ public class MinHeap {
         return heap[nodeId].getCost();
     }
 
+    public int getPosition(int nodeId) {
+        return positions[nodeId];
+    }
+
+    public int getSize() {
+        return size;
+    }
+
     /**
      * Constructor
      * @param max the maximum size of the heap
@@ -153,6 +161,7 @@ public class MinHeap {
     public int removeMin() {
         swap(1, size); // swap the end of the heap into the root
         size--;  	   // removed the end of the heap
+        positions[0] = -1;
         // fix the heap property - push down as needed
         if (size != 0)
             pushDown(1);
