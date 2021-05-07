@@ -81,16 +81,17 @@ public class PrimAlgorithm extends MSTAlgorithm {
                 table[nodeId].setAdded(true);
                 addMSTEdge(new Edge(nodeId, table[nodeId].parent, table[nodeId].cost));
             }
-            Edge curr = getFirstEdge(nodeId);
-            while (curr != null) {
-                if (!table[curr.getId2()].added) {
-                    if (table[curr.getId2()].cost > curr.getCost()) {
-                        table[curr.getId2()].setCost(curr.getCost());
-                        table[curr.getId2()].setParent(curr.getId1());
-                        unvisitedNodes.reduceKey(curr.getId2(), curr.getCost());
+            Edge currEdge = getFirstEdge(nodeId);
+            while (currEdge != null) {
+                Node currNode = table[currEdge.getId2()];
+                if (!currNode.added) {
+                    if (currNode.cost > currEdge.getCost()) {
+                        currNode.setCost(currEdge.getCost());
+                        currNode.setParent(currEdge.getId1());
+                        unvisitedNodes.reduceKey(currEdge.getId2(), currEdge.getCost());
                     }
                 }
-                curr = curr.next();
+                currEdge = currEdge.next();
             }
         }
         printMST();
