@@ -15,33 +15,54 @@ public class MinHeap {
         private int nodeId;
         private int cost;
 
+        /**
+         * Elem constructor
+         * @param nodeIdInput Input for nodeId
+         * @param costInput Input for cost
+         */
         public Elem(int nodeIdInput, int costInput) {
             nodeId = nodeIdInput;
             cost = costInput;
         }
 
+        /**
+         * Getter for cost
+         * @return cost
+         */
         public int getCost() {
             return cost;
         }
 
+        /**
+         * Setter for cost
+         * @param cost int cost input
+         */
         public void setCost(int cost) {
             this.cost = cost;
         }
 
+        /**
+         * Getter for node ID
+         * @return nodeId
+         */
         public int getNodeId() {
             return nodeId;
         }
     }
 
-
-    public int getHeapCost(int nodeId) {
-        return heap[nodeId].getCost();
-    }
-
+    /**
+     * Accessor for position
+     * @param nodeId the node id
+     * @return position at nodeId
+     */
     public int getPosition(int nodeId) {
         return positions[nodeId];
     }
 
+    /**
+     * Accessor for size
+     * @return the size of the minHeap
+     */
     public int getSize() {
         return size;
     }
@@ -159,10 +180,9 @@ public class MinHeap {
      * @return the smallest element in the priority queue
      */
     public int removeMin() {
-        swap(1, size); // swap the end of the heap into the root
-        size--;  	   // removed the end of the heap
+        swap(1, size);
+        size--;
         positions[0] = -1;
-        // fix the heap property - push down as needed
         if (size != 0)
             pushDown(1);
         return heap[size + 1].getNodeId();
@@ -175,12 +195,9 @@ public class MinHeap {
     private void pushDown(int position) {
         int smallestchild;
         while (!isLeaf(position)) {
-            smallestchild = leftChild(position); // set the smallest child to left child
+            smallestchild = leftChild(position);
             if ((smallestchild < size) && (heap[smallestchild].getCost() > heap[smallestchild + 1].getCost()))
-                smallestchild = smallestchild + 1; // right child was smaller, so smallest child = right child
-
-            // the value of the smallest child is less than value of current,
-            // the heap is already valid
+                smallestchild = smallestchild + 1;
             if (heap[position].getCost() <= heap[smallestchild].getCost())
                 return;
             swap(position, smallestchild);
