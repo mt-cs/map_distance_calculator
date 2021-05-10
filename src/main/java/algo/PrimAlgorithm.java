@@ -27,20 +27,10 @@ public class PrimAlgorithm extends MSTAlgorithm {
     private static class Node {
         int cost;
         int parent;
-        boolean added;
 
         public Node(int cost, int parent) {
             this.cost = cost;
             this.parent = parent;
-            added = false;
-        }
-
-        /**
-         * setter for added
-         * @param added boolean
-         */
-        public void setAdded(boolean added) {
-            this.added = added;
         }
 
         /**
@@ -71,20 +61,18 @@ public class PrimAlgorithm extends MSTAlgorithm {
             unvisitedNodes.insert(i, Integer.MAX_VALUE);
         }
         table[0] = new Node(0, -1);
-        table[0].setAdded(true);
         int nodeId;
         for (int i = 0; i < numNodes(); i++) {
             if (i == 0) {
                 nodeId = sourceVertex;
             } else {
                 nodeId = unvisitedNodes.removeMin();
-                table[nodeId].setAdded(true);
                 addMSTEdge(new Edge(nodeId, table[nodeId].parent, table[nodeId].cost));
             }
             Edge currEdge = getFirstEdge(nodeId);
             while (currEdge != null) {
                 Node currNode = table[currEdge.getId2()];
-                if (!currNode.added) {
+                if (unvisitedNodes.getPosition(currEdge.getId2()) <= unvisitedNodes.getSize()) {
                     if (currNode.cost > currEdge.getCost()) {
                         currNode.setCost(currEdge.getCost());
                         currNode.setParent(currEdge.getId1());
