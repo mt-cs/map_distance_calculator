@@ -1,15 +1,12 @@
 package algo;
-
 import graph.Edge;
 import graph.Graph;
 
-import java.util.Vector;
-
 public class FloydAlgorithm {
     private final Graph graph; // stores the graph of CityNode-s and edges connecting them
-    private int[][] distance;
-    private int n;
-    private int I = 99999999; // for INFINITY
+    private final int[][] distance;
+    private final int n;
+    private final int I = 99999999; // for INFINITY
 
     /**
      * Constructor
@@ -91,10 +88,19 @@ public class FloydAlgorithm {
         }
     }
 
+    /**
+     * Get shortest path between two cities
+     * @param id1 city id 1
+     * @param id2 city id 2
+     * @return shortest path between id1 and id2
+     */
     public int calculateShortestPath(int id1, int id2) {
         return distance[id1][id2];
     }
 
+    /**
+     * Run floyd algorithm to print out all shortest path from MST Driver
+     */
     public void runFloyd() {
         getDistanceTable();
         computeShortestDistance();

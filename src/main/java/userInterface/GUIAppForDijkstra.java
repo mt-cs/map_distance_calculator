@@ -1,12 +1,8 @@
 package userInterface;
-
-// import algo.KruskalAlgorithm;
-// import algo.MSTAlgorithm;
-// import algo.PrimAlgorithm;
 import algo.Dijkstra;
 import graph.CityNode;
 import graph.Graph;
-
+import algo.FloydAlgorithm;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +24,7 @@ public class GUIAppForDijkstra extends JFrame {
      */
     public GUIAppForDijkstra(Graph graph) {
         // Creating a window
-        JFrame frame = new JFrame("USA Map");
+        JFrame frame = new JFrame("USA Map - Dijkstra and Floyd Shortest Path");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         // Creating a panel that will contains the "map" and buttons
@@ -44,23 +40,20 @@ public class GUIAppForDijkstra extends JFrame {
 
         private static final long serialVersionUID = 1L;
         public final static int RAD = 3;
-
-       // private MSTAlgorithm algo = null; // algorithm for computing minimal spanning tree
         private Graph graph; // Graph
-
         private JButton buttonReset; // button to reset the algorithm
-        //private JButton buttonPrim; // button to run Prim's
-        //private JButton buttonKruskal; // button to run Kruskal's
         private JButton buttonQuit; // button to quit
         private BufferedImage image; // for showing the image of the US map
-
         private Color colMSTEdges; // color to use while displaying MST edges
-
-        private boolean oneClicked = false; // whether the user already clicked no one city
-
+        private boolean oneClicked = false; // whether the user already clicked no one cit
         private CityNode origin, destination; // two vertices clicked by the user
-
         private Dijkstra dijkstra;
+        private FloydAlgorithm floyd;
+        private String dist;
+//        private JPanel buttonPanel;
+        private JLabel distanceLabel;
+
+
         /**
          * Constructor for MapPanel class
          * @param graph Reference to the graph
@@ -69,28 +62,25 @@ public class GUIAppForDijkstra extends JFrame {
             //this.algo = algo;
             this.graph = graph;
             this.dijkstra = new Dijkstra(graph);
+            this.floyd = new FloydAlgorithm(graph);
             this.setLayout(new BorderLayout());
             this.setPreferredSize(new Dimension(580, 290));
             this.setBackground(Color.lightGray);
+            this.dist = "";
 
             // button
             buttonQuit = new JButton("Quit");
             buttonReset = new JButton("Reset");
-            // buttonPrim  = new JButton("Prim's");
-            // buttonKruskal  = new JButton("Kruskal's");
             buttonReset.addActionListener(new ButtonListener());
-            // buttonPrim.addActionListener(new ButtonListener());
-            // buttonKruskal.addActionListener(new ButtonListener());
             buttonQuit.addActionListener(new ButtonListener());
             this.addMouseListener(new MyListener());
-
 
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
             buttonPanel.add(buttonReset);
-            // buttonPanel.add(buttonPrim);
-            // buttonPanel.add(buttonKruskal);
             buttonPanel.add(buttonQuit);
+            distanceLabel = new JLabel();
+            buttonPanel.add(distanceLabel);
             this.add(buttonPanel, BorderLayout.EAST);
 
             try { // load the image of the map of the USA
@@ -148,7 +138,6 @@ public class GUIAppForDijkstra extends JFrame {
             for (int i = 0; i < nodes.length; i++) {
                 drawNode(g, nodes[i], Color.BLACK, labels[i]);
             }
-
         }
 
         /**
@@ -161,9 +150,8 @@ public class GUIAppForDijkstra extends JFrame {
             Point[][] edges = graph.getEdges();
             g.setColor(color);
 
-            for (int i = 0; i < edges.length; i++) {
-                Point[] edge = edges[i];
-                assert(edge.length == 2); // should contain two vertices
+            for (Point[] edge : edges) {
+                assert (edge.length == 2); // should contain two vertices
                 Point p1 = edge[0];
                 Point p2 = edge[1];
                 g.drawLine(p1.x, p1.y, p2.x, p2.y);
@@ -180,9 +168,8 @@ public class GUIAppForDijkstra extends JFrame {
             g.setColor(Color.MAGENTA);
             if (pathEdges == null)
                 return;
-            for (int i = 0; i < pathEdges.length; i++) {
-                Point[] edge = pathEdges[i];
-                assert(edge.length == 2); // should contain two vertices
+            for (Point[] edge : pathEdges) {
+                assert (edge.length == 2); // should contain two vertices
                 Point p1 = edge[0];
                 Point p2 = edge[1];
                 g.drawLine(p1.x, p1.y, p2.x, p2.y);
@@ -200,26 +187,11 @@ public class GUIAppForDijkstra extends JFrame {
                     System.exit(0);
                 }
                 else if (e.getSource() == buttonReset) {
-                    // algo = null;
-                    // dijkstra = null;
                     dijkstra = new Dijkstra(graph);
-
+                    distanceLabel.setText("");
+                    distanceLabel.setBorder(null);
                     repaint();
                 }
-                /*else if (e.getSource() == buttonKruskal) {
-                    System.out.println("Button Kruskal clicked");
-                    //algo = new KruskalAlgorithm(graph);
-                    //algo.computeMST();
-                    colMSTEdges = Color.RED;
-                    repaint();
-                }
-                else if (e.getSource() == buttonPrim) {
-                    System.out.println("Button Prim clicked");
-                    //algo = new PrimAlgorithm(graph, 0);
-                    //algo.computeMST();
-                    colMSTEdges = Color.BLUE;
-                    repaint();
-                } */
             }
         } // inner class ButtonListener
 
@@ -229,7 +201,6 @@ public class GUIAppForDijkstra extends JFrame {
             /** Handles mouse clicks
              * @param e mouse event */
             public void mouseClicked(MouseEvent e) {
-
                 Point center = e.getPoint();
                 CityNode v = graph.getNode(center);
                 if (v == null) {
@@ -247,8 +218,14 @@ public class GUIAppForDijkstra extends JFrame {
                     System.out.println(
                             "Call graph.Dijkstra's shortestPath() method to compute the shortest path between selected cities");
                     destination = v;
-
                     dijkstra.computeShortestPath(origin, destination);
+                    floyd.getDistanceTable();
+                    floyd.computeShortestDistance();
+                    int distance = floyd.calculateShortestPath(graph.getId(origin), graph.getId(destination));
+                    dist = "Distance: " + distance;
+                    distanceLabel.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
+                    distanceLabel.setText(dist);
+                    System.out.println("Floyd's shortest distance: " + distance);
                     oneClicked = false;
                     repaint();
                 } // if oneClicked is true

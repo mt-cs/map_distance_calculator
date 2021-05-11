@@ -3,12 +3,12 @@ import graph.*;
 import priorityQueue.MinHeap;
 
 /** Computing SSSP. Uses Djikstra's algorithm to compute the shortest path from San Francisco to every other city in the graph. */
-public class DjikstraAlgorithm extends MSTAlgorithm{
+public class DijkstraAlgorithm extends MSTAlgorithm{
     private int sourceVertex;
     private MinHeap unvisitedNodes;
     private Node[] table;
 
-    public DjikstraAlgorithm(Graph graph, int sourceVertex) {
+    public DijkstraAlgorithm(Graph graph, int sourceVertex) {
         super(graph);
         this.sourceVertex = sourceVertex;
         table = new Node[numNodes()];

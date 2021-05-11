@@ -8,7 +8,7 @@
  */
 package userInterface;
 
-import algo.DjikstraAlgorithm;
+import algo.DijkstraAlgorithm;
 import algo.KruskalAlgorithm;
 import algo.MSTAlgorithm;
 import algo.PrimAlgorithm;
@@ -221,7 +221,7 @@ public class GUIApp extends JFrame {
                 }
                 else if (e.getSource() == buttonDjikstra) {
                     System.out.println("Button Djikstra clicked");
-                    algo = new DjikstraAlgorithm(graph, 0);
+                    algo = new DijkstraAlgorithm(graph, 0);
                     algo.computeMST();
                     colMSTEdges = Color.MAGENTA;
                     repaint();
