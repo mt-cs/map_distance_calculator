@@ -88,15 +88,15 @@ public class Graph {
         int id2 = citiesId.get(edge_info[1]);
         int cost = Integer.parseInt(edge_info[2]);
         Edge edge1 = new Edge (id1, id2, cost);
-        insertAdjacencyList(id1, edge1);
+        insertInFrontAdjacencyList(id1, edge1);
         Edge edge2 = new Edge (id2, id1, cost);
-        insertAdjacencyList(id2, edge2);
+        insertInFrontAdjacencyList(id2, edge2);
         line = br.readLine();
         return line;
     }
 
     /**
-     * A helper method to insert an edge to the adjacency linked list
+     * A helper method to insert an edge to the adjacency linked list at the end of the linkedList
      * @param idx index
      * @param edge Edge
      */
@@ -110,6 +110,18 @@ public class Graph {
         } else {
             adjacencyList[idx] = edge;
         }
+        numEdges++;
+    }
+
+    /**
+     * A helper method to insert in front of the Adjacency linkedList
+     * @param idx index
+     * @param edge Edge
+     */
+    private void insertInFrontAdjacencyList(int idx, Edge edge) {
+        Edge current = adjacencyList[idx];
+        adjacencyList[idx] = edge;
+        edge.setNext(current);
         numEdges++;
     }
 
