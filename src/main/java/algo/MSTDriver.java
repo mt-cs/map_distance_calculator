@@ -18,5 +18,10 @@ public class MSTDriver {
 		GUIApp app = new GUIApp(graph);
 		// this will run the GUI, and then the user will be able to interact with GUI
 		GUIAppForDijkstra dijkstraApp = new GUIAppForDijkstra(graph);
+
+		/* Floyd Algorithm extra credit */
+		System.out.println("FLOYD'S ALGORITHM");
+		FloydAlgorithm floyd = new FloydAlgorithm(graph);
+		floyd.runFloyd();
 	}
 }

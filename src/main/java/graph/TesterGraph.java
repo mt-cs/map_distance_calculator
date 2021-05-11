@@ -50,5 +50,6 @@ public class TesterGraph {
         floyd.computeShortestDistance();
         floyd.printMatrix();
         System.out.println(floyd.calculateShortestPath(1, 11));
+        floyd.printAllShortestDistance();
     }
 }

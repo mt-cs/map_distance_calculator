@@ -78,8 +78,26 @@ public class FloydAlgorithm {
         System.out.println();
     }
 
+    public void printAllShortestDistance() {
+        System.out.println("Shortest Distance Between Cities");
+        System.out.println("---------------------------------");
+        for (int i = 0; i < n; i++) {
+            System.out.println("START -> " + graph.getNode(i).getCity());
+            System.out.println("\nDestination: Distance");
+            for (int j = 0; j < n; j++) {
+                System.out.println(graph.getNode(j).getCity() + ": " + distance[i][j]);
+            }
+            System.out.println("---------------------------------");
+        }
+    }
 
     public int calculateShortestPath(int id1, int id2) {
         return distance[id1][id2];
+    }
+
+    public void runFloyd() {
+        getDistanceTable();
+        computeShortestDistance();
+        printAllShortestDistance();
     }
 }
