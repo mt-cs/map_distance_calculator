@@ -11,8 +11,7 @@ import java.util.List;
  * Fill in the code in printMST() method. */
 public abstract class MSTAlgorithm { // parent class
     private Graph graph; // stores the reference to the graph
-    private List<Edge> edgesMST = new ArrayList<>(); // edges that belong to
-    // minimal spanning tree
+    private List<Edge> edgesMST = new ArrayList<>(); // edges that belong to minimal spanning tree
 
     public MSTAlgorithm(Graph graph) {
         this.graph = graph;
