@@ -1,4 +1,4 @@
-# Map Distance Calculator
+# US Map MST and SSSP
 
 Author: Marisa Tania  
 
