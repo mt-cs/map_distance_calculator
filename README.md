@@ -5,29 +5,14 @@ Author: Marisa Tania
 ## About This Project
 This project implements Prim's and Kruskal's algorithms for computing the minimum spanning tree (MST), as well as Djikstra's and Floyd's algorithms for computing Single-Source-Shortest-Path (SSSP) of all major cities in the United States.The graph costs are proportional to the distance between cities. This project has a graphical user interface (GUI) that will display the graph of cities on the "map"1 (the "map" is simply an image), and the minimal spanning tree:
 
+
 <img width="579" alt="mst" src="https://user-images.githubusercontent.com/60201466/119550403-3c7eb380-bd4d-11eb-82f5-6209691f91d0.png">
 Figure 1: The "map" of the USA shows "nodes" (major cities) and edges connecting them, as well as the edges in the MST (shown in blue). Users can pick the algorithm that they want to use to display the result.
+
 
 <img width="580" alt="sssp" src="https://user-images.githubusercontent.com/60201466/119550482-51f3dd80-bd4d-11eb-9f11-5c309f1efd9e.png">
 Figure 2: Click two cities and the edges in SSSP (shown in magenta) will appear.
 
-
-### Program Options
-Each portion of the GUI display can show results on the map. Here are the options:
-```bash
-$ ./inspector -h
-Usage: ./inspector [-ahlrst] [-p procfs_dir]
-
-Options:
-    * -a              Display all (equivalent to -lrst, default)
-    * -h              Help/usage information
-    * -l              Task List
-    * -p procfs_dir   Change the expected procfs mount point (default: /proc)
-    * -r              Hardware Information
-    * -s              System Information
-    * -t              Task Information
-```
-The task list, hardware information, system information, and task information can all be turned on/off with the command line options. By default, all of them are displayed.
 
 ### Included Files
 There are several files included. These are:
